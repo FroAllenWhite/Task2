@@ -5,16 +5,16 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%category}}`.
  */
-class m230717_091202_create_category_table extends Migration
+class m230719_172033_create_category_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%category}}', [
+        $this->createTable('category', [
             'id' => $this->primaryKey(),
-            'title' => $this->string()
+            'title'=>$this->string()
         ]);
     }
 

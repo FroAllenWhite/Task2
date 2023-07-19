@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%tag}}`.
  */
-class m230717_091217_create_tag_table extends Migration
+class m230719_172050_create_tag_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -14,7 +14,7 @@ class m230717_091217_create_tag_table extends Migration
     {
         $this->createTable('{{%tag}}', [
             'id' => $this->primaryKey(),
-            'title' => $this->string()
+            'title'=>$this->string()
         ]);
     }
 
