@@ -47,7 +47,7 @@ PublicAsset::register($this);
                 </ul>
                 <div class="i_con">
                     <ul class="nav navbar-nav text-uppercase">
-                        <li><a href="/site/login">Login</a></li>
+                        <li><a href="/auth/login">Login</a></li>
                         <li><a href="/site/signup">Register</a></li>
                     </ul>
                 </div>

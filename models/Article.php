@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -59,7 +60,7 @@ class Article extends \yii\db\ActiveRecord
             'date' => 'Date',
             'image' => 'Image',
             'viewed' => 'Viewed',
-            'iser_id' => 'Iser ID',
+            'user_id' => 'User ID',
             'status' => 'Status',
             'category_id' => 'Category ID',
         ];
@@ -130,5 +131,38 @@ class Article extends \yii\db\ActiveRecord
                 $this->link('tags', $tag);
             }
         }
+    }
+
+    public function getDate()
+    {
+        return Yii::$app->formatter->asDate($this->date);
+    }
+
+    public static function getAll($pageSize = 5)
+    {
+        $query = Article::find();
+
+        $count = $query->count();
+
+        $pagination = new Pagination(['totalCount' => $count, 'pageSize' => $pageSize]);
+
+        $articles =$query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
+
+        $data['articles'] = $articles;
+        $data['pagination'] = $pagination;
+
+        return $data;
+    }
+
+    public static function getPopular()
+    {
+        return Article::find()->orderBy('viewed desc')->limit(3)->all();
+    }
+
+    public static function getRecent()
+    {
+        return Article::find()->orderBy('date asc')->limit(4)->all();
     }
 }
