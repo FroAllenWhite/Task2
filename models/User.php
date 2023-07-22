@@ -34,7 +34,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['isAdmin'], 'integer'],
-            [['user', 'email', 'password', 'photo'], 'string', 'max' => 255],
+            [['name', 'email', 'password', 'photo'], 'string', 'max' => 255],
         ];
     }
 
@@ -96,5 +96,11 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function validatePassword($password)
     {
        return ($this->password == $password) ? true : false;
+
+    }
+
+    public function create()
+    {
+        return $this->save(false);
     }
 }
