@@ -34,7 +34,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['isAdmin'], 'integer'],
-            [['name', 'email', 'password', 'photo'], 'string', 'max' => 255],
+            [['user', 'email', 'password', 'photo'], 'string', 'max' => 255],
         ];
     }
 
@@ -74,12 +74,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
     public function getAuthKey()
     {
-        // TODO: Implement getAuthKey() method.
+        return null;
     }
 
     public function validateAuthKey($authKey)
     {
-        // TODO: Implement validateAuthKey() method.
+        return true;
     }
 
     public static function findIdentityByAccessToken($token, $type = null)
@@ -88,9 +88,9 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     }
 
 
-    public static function findByUsername($username)
+    public static function findByEmail($email)
     {
-        return User::find()->where(['name' => $username])->one();
+        return User::find()->where(['email' => $email])->one();
     }
 
     public function validatePassword($password)
@@ -102,5 +102,26 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function create()
     {
         return $this->save(false);
+    }
+
+    public function saveFromVk($uid, $name, $photo)
+    {
+        $user = User::findOne($uid);
+        if($user)
+        {
+            return Yii::$app->user->login($user);
+        }
+
+        $this->id = $uid;
+        $this->name = $name;
+        $this->photo = $photo;
+        $this->create();
+
+        return Yii::$app->user->login($this);
+    }
+
+    public function getImage()
+    {
+        return $this->photo;
     }
 }

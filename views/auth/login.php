@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]); ?>
 
                 <div class="form-group"> <!-- Обертка для Username -->
-                    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                    <?= $form->field($model, 'email')->textInput(['autofocus' => true]) ?>
                 </div>
 
                 <div class="form-group" style="margin-top: 20px;"> <!-- Обертка для Password с отступом 20px -->
@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                     </div>
                 </div>
+
                 <?php ActiveForm::end(); ?>
 
                 <div class="col-lg-offset-1" style="color:#999;">
@@ -56,10 +57,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="col-md-2">
             <!-- Put this script tag to the <head> of your page -->
+            <script
+                    type="text/javascript"
+                    src="https://vk.com/js/api/openapi.js?168"
+                    charset="windows-1251"
+            ></script>
+            <script type="text/javascript">
+                VK.init({ apiId: 51710203 });
+            </script>
 
-            <!-- Put this div tag to the place, where Auth block will be -->
-
-
+            <!-- Put this script tag to the place, where the Login block will be -->
+            <div id="vk_auth"></div>
+            <script type="text/javascript">
+                VK.Widgets.Auth("vk_auth", {authUrl: "/auth/login-vk"});
+            </script>
         </div>
     </div>
 </div>

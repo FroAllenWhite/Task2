@@ -19,22 +19,30 @@ use yii\widgets\LinkPager;
                         <div class="post-content">
                             <header class="entry-header text-center text-uppercase">
                                 <?php if ($article->category): ?>
-                                    <h6><a href="#"><?= $article->category->title; ?></a></h6>
+                                    <h6><a href="<?= Url::toRoute(['site/category', 'id' => $article->category->id]) ?>"><?= $article->category->title; ?></a></h6>
                                 <?php else: ?>
                                     <h6><a href="#">Без категории</a></h6>
                                 <?php endif; ?>
 
-                                <h1 class="entry-title"><a href="blog.html"><?= $article->title; ?></a></h1>
+                                <h1 class="entry-title"><a href="<?= Url::toRoute(['site/view', 'id'=>$article->id]) ?>"><?= $article->title; ?></a></h1>
                             </header>
                             <div class="entry-content">
                                 <p><?= $article->description; ?></p>
-
+                                <div class="decoration">
+                                    <?php foreach ($article->tags as $tag): ?>
+                                        <a href="<?= Url::toRoute(['site/tag', 'tag' => $tag->title]) ?>" class="btn btn-default"><?= $tag->title ?></a>
+                                    <?php endforeach; ?>
+                                </div>
                                 <div class="btn-continue-reading text-center text-uppercase">
                                     <a href="<?= Url::toRoute(['site/view', 'id'=>$article->id]) ?>" class="more-link">Continue Reading</a>
                                 </div>
                             </div>
                             <div class="social-share">
-                                <span class="social-share-title pull-left text-capitalize">By <a href="#">Rubel</a> On <?= $article->getDate(); ?></span>
+                                <?php if ($article->author): ?>
+                                    <span class="social-share-title pull-left text-capitalize">By <?= $article->author->name?> On <?= $article->getDate(); ?></span>
+                                <?php else: ?>
+                                    <span class="social-share-title pull-left text-capitalize">By Unknown Author On <?= $article->getDate(); ?></span>
+                                <?php endif; ?>
                                 <ul class="text-center pull-right">
                                     <li><a class="s-facebook" href="#"><i class="fa fa-eye"></i></a></li><?= (int) $article->viewed;?>
                                 </ul>
@@ -58,13 +66,13 @@ use yii\widgets\LinkPager;
                             <div class="popular-post">
 
 
-                                <a href="#" class="popular-img"><img src="<?= $article->getImage();?>" alt="">
+                                <a href="<?= Url::toRoute(['site/view', 'id'=>$article->id]) ?>" class="popular-img"><img src="<?= $article->getImage();?>" alt="">
 
                                     <div class="p-overlay"></div>
                                 </a>
 
                                 <div class="p-content">
-                                    <a href="#" class="text-uppercase"><?= $article->title ?></a>
+                                    <a href="<?= Url::toRoute(['site/view', 'id'=>$article->id]) ?>" class="text-uppercase"><?= $article->title ?></a>
                                     <span class="p-date"><?= $article->getDate(); ?></span>
 
                                 </div>
@@ -79,12 +87,12 @@ use yii\widgets\LinkPager;
 
                                 <div class="media">
                                     <div class="media-left">
-                                        <a href="#" class="popular-img"><img src="<?= $article->getImage(); ?>" alt="">
+                                        <a href="<?= Url::toRoute(['site/view', 'id'=>$article->id]) ?>" class="popular-img"><img src="<?= $article->getImage(); ?>" alt="">
                                             <div class="p-overlay"></div>
                                         </a>
                                     </div>
                                     <div class="p-content">
-                                        <a href="#" class="text-uppercase"><?= $article->title;?></a>
+                                        <a href="<?= Url::toRoute(['site/view', 'id'=>$article->id]) ?>" class="text-uppercase"><?= $article->title;?></a>
                                         <span class="p-date"><?= $article->getDate();?></span>
                                     </div>
                                 </div>
@@ -96,7 +104,7 @@ use yii\widgets\LinkPager;
                         <ul>
                             <?php foreach ($categories as $category):?>
                                 <li>
-                                    <a href="#"><?= $category->title?></a>
+                                    <a href="<?= Url::toRoute(['site/category', 'id' => $category->id]) ?>"><?= $category->title?></a>
                                     <span class="post-count pull-right"> (<?= $category->getArticlesCount();?>)</span>
                                 </li>
                             <?php endforeach;?>

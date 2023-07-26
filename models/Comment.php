@@ -18,6 +18,8 @@ use Yii;
  */
 class Comment extends \yii\db\ActiveRecord
 {
+    const STATUS_ALLOW = 1;
+    const STATUS_DISALLOW = 0;
     /**
      * {@inheritdoc}
      */
@@ -29,6 +31,10 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+    /**
+     * @property string|null $date
+     */
     public function rules()
     {
         return [
@@ -36,6 +42,7 @@ class Comment extends \yii\db\ActiveRecord
             [['text'], 'string', 'max' => 255],
             [['article_id'], 'exist', 'skipOnError' => true, 'targetClass' => Article::class, 'targetAttribute' => ['article_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['date'], 'safe'],
         ];
     }
 
@@ -72,4 +79,26 @@ class Comment extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);
     }
+
+    public function getDate()
+    {
+        return Yii::$app->formatter->asDate($this->date);
+    }
+
+    public function isAllowed()
+    {
+        return $this->status;
+    }
+    public function allow()
+    {
+        $this->status = self::STATUS_ALLOW;
+        return $this->save(false);
+    }
+
+    public function disallow()
+    {
+        $this->status = self::STATUS_DISALLOW;
+        return $this->save(false);
+    }
+
 }
